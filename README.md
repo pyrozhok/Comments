@@ -1,19 +1,18 @@
-# Тестовое задание
+# Comments App Demo
 
-## Задачи:
+## Tasks:
 
-1) Вывести на экран комментарии, соблюдая их вложенность и пагинацию, используя запросы из `src/api`
-2) Посчитать сумму лайков и комментариев
+1) Show comments according to pagination and order
+2) Count likes and comments
 
-## Нельзя:
+## Not allowed:
 
-1) Модифицировать папку `src/api`
-2) Менять содержимое возвращаемых данных в `src/data`
-3) Модифицировать файл `src/index.tsx`
+1) Modify `src/api`
+2) Change data `src/data`
+3) Modify `src/index.tsx`
 
-Что не запрещено - то разрешено
 
-## Дизайн:
+## Design:
 
 ### Figma [Comments.fig](Comments.fig)
 
