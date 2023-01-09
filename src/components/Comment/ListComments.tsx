@@ -1,12 +1,13 @@
-import React, {useState, useEffect, useCallback} from "react";
+import React, {useState, useEffect} from "react";
+import axios from "axios";
+import axiosRetry from "axios-retry";
 import getCommentsRequest from "src/api/comments/getCommentsRequest";
 import getAuthorsRequest from "src/api/authors/getAuthorsRequest";
 import Comment from "./Comment";
-import axios from "axios";
-import axiosRetry from "axios-retry";
+
 import TComment from "src/shared/interfaces/comment";
 import TAuthor from "src/shared/interfaces/author";
-import "./listComments.css";
+
 interface IPagination<T> {
     pagination: {
         page: number;
@@ -87,7 +88,6 @@ function ListComments() {
                 const res = await getAuthorsRequest();
                 if (res) {
                     setAuthors(res);
-                    setLoading(false);
                 }
             } catch (error) {
                 console.log(error);
@@ -97,8 +97,11 @@ function ListComments() {
             }
         };
 
-        getComments();
-        getAuthors();
+        // getComments();
+        // getAuthors();
+        Promise.all([getComments(), getAuthors()]).then(() =>
+            setLoading(false),
+        );
     }, []);
 
     const rootComments = displayedComments.comments?.filter(
@@ -116,11 +119,16 @@ function ListComments() {
     };
 
     return (
-        <div>
-            <h1>
-                {totalCount.comments} comments and {totalCount.likes} likes
-            </h1>
-            <div className="comments">
+        <div className="mx-6 pt-8 pb-10 lg:pt-[52px] lg:mx-[402px]">
+            <div className="border-b">
+                <div className="pb-2 flex flex-row justify-between ">
+                    <span className="font-bold">
+                        {totalCount.comments} comments
+                    </span>
+                    <span className="font-bold">❤️ {totalCount.likes}</span>
+                </div>
+            </div>
+            <div id="comments-list">
                 {rootComments?.map((comment: TComment) => (
                     <Comment
                         key={comment.id}
@@ -130,19 +138,23 @@ function ListComments() {
                     />
                 ))}
             </div>
-            {
-                /* page */ displayedComments.page <= 2 && (
-                    <div className="next-page">
-                        <button
-                            onClick={() => {
-                                loadNextPage();
-                            }}
-                        >
-                            Загрузить еще
-                        </button>
-                    </div>
-                )
-            }
+
+            {displayedComments.page <= 2 && !loading && (
+                <div
+                    id="btn-load-more-comments"
+                    className="mx-11 mt-10 lg:mt-[60px] pb-16 flex justify-center"
+                >
+                    <button
+                        type="button"
+                        className="rounded bg-[#313439] w-[243px] h-9"
+                        onClick={() => {
+                            loadNextPage();
+                        }}
+                    >
+                        Show more
+                    </button>
+                </div>
+            )}
         </div>
     );
 }

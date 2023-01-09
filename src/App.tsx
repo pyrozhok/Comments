@@ -1,10 +1,9 @@
 import React from "react";
-import "./App.css";
 import ListComments from "./components/Comment/ListComments";
 
 function App() {
     return (
-        <div className="App">
+        <div className="bg-main bg-no-repeat bg-cover bg-center bg-fixed">
             <ListComments />
         </div>
     );
