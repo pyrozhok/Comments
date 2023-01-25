@@ -11,7 +11,6 @@
 2) Change data `src/data`
 3) Modify `src/index.tsx`
 
-
 ## Design:
 
 ### Figma [Comments.fig](Comments.fig)
